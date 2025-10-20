@@ -28,12 +28,19 @@ products = ["Equity", "Bonds", "ETF"]
 client_segments = ["Private", "Corporate", "Institutional"]
 
 # ------------------- 4. Generate synthetic rows -------------------
+product_margin_factor = {
+    "Equity": (0.3, 0.6),
+    "Bonds": (0.2, 0.5),
+    "ETF": (0.4, 0.7)
+}
+
 rows = []
 for m in months:
     for p in products:
         for s in client_segments:
-            revenue = int(np.random.randint(100_000, 500_000))        # Random revenue
-            cost = int(revenue * np.random.uniform(0.35, 0.65))       # Cost is 35%-65% of revenue
+            revenue = int(np.random.randint(100_000, 500_000))
+            low, high = product_margin_factor[p]
+            cost = int(revenue * np.random.uniform(low, high))
             rows.append({
                 "Month": m,
                 "Product": p,
